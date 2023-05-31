@@ -18,7 +18,23 @@ const productById = {
   name: 'Traje de encolhimento',
 };
 
+const newProduct = {
+  name: 'ProdutoX',
+};
+
+const newProductResult = {
+  id: 4,
+  name: 'ProdutoX',
+};
+
+const newProduct3char = {
+  name: 'PrX',
+};
+
 module.exports = {
   listAllProducts,
   productById,
+  newProduct,
+  newProductResult,
+  newProduct3char,
 };

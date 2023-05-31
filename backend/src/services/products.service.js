@@ -12,7 +12,17 @@ const getProductById = async (id) => {
   return 'error';
 };
 
+const addNewProduct = async (name) => {
+  const validName = productsMiddlewares.validateProductName(name);
+  if (validName.type === 200) {
+    const data = await productsModel.addNewProduct(name);
+    return data;
+  }
+  return validName;
+};                                          
+
 module.exports = {
   getAllProducts,
   getProductById,
+  addNewProduct,
 };

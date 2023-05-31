@@ -7,7 +7,8 @@ chai.use(sinonChai);
 const { expect } = chai;
 const productsController = require('../../../src/controllers/products.controller');
 const productsServices = require('../../../src/services/products.service');
-const { listAllProducts, productById } = require('./mocks/product.mock');
+const { listAllProducts, productById, 
+  newProductResult, newProduct, newProduct3char } = require('./mocks/product.mock');
 
 describe('Testes da camada controller do Products', function () {
   const res = {};
@@ -37,6 +38,31 @@ describe('Testes da camada controller do Products', function () {
     await productsController.getProductById(req, res);
     expect(res.status).to.be.calledWith(404);
     expect(res.json).to.be.calledWithExactly({ message: 'Product not found' });
+  });
+  it('Teste da função addNewProduct, receber o produto adicionado', async function () {
+    const req = { body: { name: newProduct.name } };
+    sinon.stub(productsServices, 'addNewProduct')
+    .resolves({ type: 201, message: newProductResult });
+    await productsController.addNewProduct(req, res);
+    expect(res.status).to.be.calledWith(201);
+    expect(res.json).to.be.calledWithExactly(newProductResult);
+  });
+  it('Teste da função addNewProduct, receber o erro de nome inexistente', async function () {
+    const req = { body: { name: '' } };
+    sinon.stub(productsServices, 'addNewProduct')
+    .resolves({ type: 400, message: '"name" is required' });
+    await productsController.addNewProduct(req, res);
+    expect(res.status).to.be.calledWith(400);
+    expect(res.json).to.be.calledWithExactly({ message: '"name" is required' });
+  });
+  it('Teste da função addNewProduct, receber o erro de nome incorreto', async function () {
+    const req = { body: { name: newProduct3char.name } };
+    sinon.stub(productsServices, 'addNewProduct')
+    .resolves({ type: 422, message: '"name" length must be at least 5 characters long' });
+    await productsController.addNewProduct(req, res);
+    expect(res.status).to.be.calledWith(422);
+    expect(res.json).to.be
+    .calledWithExactly({ message: '"name" length must be at least 5 characters long' });
   });
   afterEach(function () {
     sinon.restore();

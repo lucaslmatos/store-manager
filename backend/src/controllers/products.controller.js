@@ -12,7 +12,15 @@ const getProductById = async (req, res) => {
   return res.status(404).json({ message: 'Product not found' });
 };
 
+const addNewProduct = async (req, res) => {
+  const { name } = req.body;
+  const { type, message } = await productsServices.addNewProduct(name);
+  if (type === 201) { return res.status(type).json(message); }
+  return res.status(type).json({ message });
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
+  addNewProduct,
 };
