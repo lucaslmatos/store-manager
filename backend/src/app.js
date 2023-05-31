@@ -1,5 +1,6 @@
 const express = require('express');
 const productsRouter = require('./routes/products.router');
+const salesRouter = require('./routes/sales.router');
 
 const app = express();
 
@@ -10,5 +11,6 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 app.use('/products', productsRouter);
+app.use('/sales', salesRouter);
 
 module.exports = app;

@@ -7,7 +7,7 @@ chai.use(sinonChai);
 const { expect } = chai;
 const productsController = require('../../../src/controllers/products.controller');
 const productsServices = require('../../../src/services/products.service');
-const { listAllProducts, productById } = require('./mocks/producst.mock');
+const { listAllProducts, productById } = require('./mocks/product.mock');
 
 describe('Testes da camada controller do Products', function () {
   const res = {};
