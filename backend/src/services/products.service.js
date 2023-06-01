@@ -26,7 +26,7 @@ const editProduct = async (id, name) => {
   const checkId = await productsModel.getProductById(id);
   if (validName.type === 200 && checkId !== 'erro') {
     const data = await productsModel.editProduct(id, name);
-    return data;
+    return data; 
   } if (validName.type === 200 && checkId === 'erro') {
      return { type: 404, message: 'Product not found' }; 
   }
