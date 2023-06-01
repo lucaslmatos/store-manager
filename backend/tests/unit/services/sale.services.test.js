@@ -50,7 +50,7 @@ describe('Testes da camada service do Sales', function () {
   //   const validateSale = await salesMiddlewares.validateSaleContent(newSaleResponseError3);
   //   expect(validateSale.message).to.be.deep.equal('Product not found');
   //   expect(result).to.be.deep.equal({ type: 404, message: 'Product not found' });
-  // });
+  // }); 
   it('Teste da função addNewSale, cadastro sem sucesso (quantidade ausente)', async function () {
     const result = await salesServices.addNewSale(newSaleResponseError4); 
     const validateSale = await salesMiddlewares.validateSaleContent(newSaleResponseError4);
