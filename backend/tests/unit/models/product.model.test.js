@@ -5,7 +5,7 @@ const { expect } = chai;
 const connection = require('../../../src/models/connection');
 const productsModel = require('../../../src/models/products.model');
 const { listAllProducts, productById, 
-  newProduct, newProductResult } = require('./mocks/product.mock');
+  newProduct, newProductResult, productEdit } = require('./mocks/product.mock');
 
 describe('Testes da camada model do Products', function () {
   it('Teste da função getAllProducts, receber um array com os produtos', async function () {
@@ -30,6 +30,16 @@ describe('Testes da camada model do Products', function () {
     .resolves([[newProductResult]]);
     const result = await productsModel.addNewProduct(newProduct.name);
     expect(result).to.be.deep.equal({ type: 201, message: newProductResult });
+  });
+  it('Teste da função editProduct, editar produto com sucesso', async function () {
+    sinon.stub(connection, 'execute').resolves();
+    const result = await productsModel.editProduct(2, productEdit.name);
+    expect(result).to.be.deep.equal({ type: 200, message: { id: 2, name: productEdit.name } });
+  });
+  it('Teste da função deleteProduct, deletar produto com sucesso', async function () {
+    sinon.stub(connection, 'execute').resolves();
+    const result = await productsModel.deleteProduct(2);
+    expect(result).to.be.deep.equal({ type: 204 });
   });
   afterEach(function () {
     sinon.restore();

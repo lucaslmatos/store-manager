@@ -31,10 +31,15 @@ const newProduct3char = {
   name: 'PrX',
 };
 
+const productEdit = {
+  name: 'Martelo do Batman',
+};
+
 module.exports = {
   listAllProducts,
   productById,
   newProduct,
   newProductResult,
   newProduct3char,
+  productEdit,
 };

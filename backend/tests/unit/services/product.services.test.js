@@ -4,7 +4,8 @@ const sinon = require('sinon');
 const { expect } = chai;
 const productsModel = require('../../../src/models/products.model');
 const productsServices = require('../../../src/services/products.service');
-const { listAllProducts, productById, 
+const productsMiddlewares = require('../../../src/middlewares/products.middlewares');
+const { listAllProducts, productById, productEdit, 
   newProductResult, newProduct, newProduct3char } = require('./mocks/product.mock');
 
 describe('Testes da camada service do Products', function () {
@@ -35,6 +36,16 @@ describe('Testes da camada service do Products', function () {
     const result = await productsServices.addNewProduct(newProduct3char.name);
     expect(result).to.be.deep.equal({ type: 422, 
       message: '"name" length must be at least 5 characters long' });
+  });
+  it('Teste da função editProduct, editar produto com sucesso', async function () {
+    const result = await productsServices.editProduct(2, productEdit.name);
+    expect(result).to.be.deep.equal({ type: 200, message: { id: 2, name: productEdit.name } });
+  });
+  it('Teste da função editProduct, editar produto sem sucesso', async function () {
+    const result = await productsServices.editProduct(5657, productEdit.name);
+    sinon.stub(productsMiddlewares, 'validateProductName').resolves({ type: 200, message: 'ok' });
+    sinon.stub(productsModel, 'getProductById').resolves('erro');
+    expect(result).to.be.deep.equal({ type: 404, message: 'Product not found' });
   });
   afterEach(function () {
     sinon.restore();
