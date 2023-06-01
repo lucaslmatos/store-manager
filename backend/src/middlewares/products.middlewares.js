@@ -1,4 +1,4 @@
-const validateId = (data) => !(!data);
+const validateId = (data) => data !== 'erro';
 
 const validateProductName = (name) => {
 if (!name) return { type: 400, message: '"name" is required' };

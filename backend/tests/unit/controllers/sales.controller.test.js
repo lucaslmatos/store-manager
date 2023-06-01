@@ -7,7 +7,8 @@ chai.use(sinonChai);
 const { expect } = chai;
 const salesController = require('../../../src/controllers/sales.controller');
 const salesServices = require('../../../src/services/sales.service');
-const { listAllSales, saleById } = require('./mocks/sale.mock');
+const { listAllSales, saleById, newSaleResponse, 
+  newSale, newSaleResponseError1 } = require('./mocks/sale.mock');
 
 describe('Testes da camada controller do Sales', function () {
   const res = {};
@@ -37,6 +38,21 @@ describe('Testes da camada controller do Sales', function () {
     await salesController.getSaleById(req, res);
     expect(res.status).to.be.calledWith(404);
     expect(res.json).to.be.calledWithExactly({ message: 'Sale not found' });
+  });
+  it('Teste da função addNewSale, adicionar venda com sucesso', async function () {
+    const req = { body: newSaleResponse };
+    sinon.stub(salesServices, 'addNewSale').resolves({ type: 201, message: newSale });
+    await salesController.addNewSale(req, res);
+    expect(res.status).to.be.calledWith(201);
+    expect(res.json).to.be.calledWithExactly(newSale);
+  });
+  it('Teste da função addNewSale, adicionar venda sem sucesso', async function () {
+    const req = { body: newSaleResponseError1 };
+    sinon.stub(salesServices, 'addNewSale')
+    .resolves({ type: 400, message: '"productId" is required' });
+    await salesController.addNewSale(req, res);
+    expect(res.status).to.be.calledWith(400);
+    expect(res.json).to.be.calledWithExactly({ message: '"productId" is required' });
   });
   afterEach(function () {
     sinon.restore();

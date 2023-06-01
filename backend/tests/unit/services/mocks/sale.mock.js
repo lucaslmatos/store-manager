@@ -27,15 +27,38 @@ const saleById = [
   },
 ];
 
-const newSale = [{
-  sId: 4,
-  pId: 1,
-  q: 1,
-}];
+const newSale = {
+  id: 3,
+  itemsSold: [
+    {
+      productId: 1,
+      quantity: 1,
+    },
+  ],
+};
 
 const newSaleResponse = [{
   productId: 1,
   quantity: 1,
+}];
+
+const newSaleResponseError1 = [{
+  productId: '',
+  quantity: 1,
+}];
+
+const newSaleResponseError2 = [{
+  productId: 1,
+  quantity: 0,
+}];
+
+const newSaleResponseError3 = [{
+  productId: 7,
+  quantity: 1,
+}];
+
+const newSaleResponseError4 = [{
+  productId: 1,
 }];
 
 module.exports = {
@@ -43,4 +66,8 @@ module.exports = {
   saleById,
   newSale,
   newSaleResponse,
+  newSaleResponseError1,
+  newSaleResponseError2,
+  newSaleResponseError3,
+  newSaleResponseError4,
 };

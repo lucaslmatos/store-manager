@@ -18,6 +18,11 @@ describe('Testes da camada model do Products', function () {
     const result = await productsModel.getProductById(2);
     expect(result).to.be.deep.equal(productById);
   });
+  it('Teste da função getProductById, receber um erro de acordo com o id', async function () {
+    sinon.stub(connection, 'execute').resolves([[undefined]]);
+    const result = await productsModel.getProductById(5);
+    expect(result).to.be.deep.equal('erro');
+  });
   it('Teste da função addNewProduct, cadastro de novo produto com sucesso', async function () {
     sinon.stub(connection, 'execute')
     .onFirstCall().resolves()

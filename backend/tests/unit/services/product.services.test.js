@@ -19,7 +19,7 @@ describe('Testes da camada service do Products', function () {
     expect(result).to.be.deep.equal(productById);
   });
   it('Teste da função getProductById, receber um erro', async function () {
-    sinon.stub(productsModel, 'getProductById').resolves(undefined);
+    sinon.stub(productsModel, 'getProductById').resolves('erro');
     const result = await productsServices.getProductById(1342342); 
     expect(result).to.be.deep.equal('error');
   });
