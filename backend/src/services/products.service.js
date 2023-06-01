@@ -21,8 +21,21 @@ const addNewProduct = async (name) => {
   return validName;
 };                                          
 
+const editProduct = async (id, name) => {
+  const validName = productsMiddlewares.validateProductName(name);
+  const checkId = await productsModel.getProductById(id);
+  if (validName.type === 200 && checkId !== 'erro') {
+    const data = await productsModel.editProduct(id, name);
+    return data;
+  } if (validName.type === 200 && checkId === 'erro') {
+     return { type: 404, message: 'Product not found' }; 
+  }
+  return validName;
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   addNewProduct,
+  editProduct,
 };
