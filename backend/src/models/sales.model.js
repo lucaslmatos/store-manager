@@ -22,7 +22,6 @@ const addNewSale = async (sale) => {
   await connection.execute('INSERT INTO sales (date) VALUES (NOW());');
   await connection.execute('INSERT INTO sales_products '
   + '(sale_id, product_id, quantity) VALUES (?, ?, ?);', [sId, pId, q]);
-
   return { productId: pId, quantity: q };
 };
 

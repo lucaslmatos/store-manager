@@ -14,8 +14,9 @@ const getSaleById = async (req, res) => {
 
 const addNewSale = async (req, res) => {
   const sale = req.body;
-  const data = await salesServices.addNewSale(sale);
-  return res.status(201).json(data);
+  const { type, message } = await salesServices.addNewSale(sale);
+  if (type === 201) return res.status(type).json(message);
+  return res.status(type).json({ message });
 };
 
 module.exports = {

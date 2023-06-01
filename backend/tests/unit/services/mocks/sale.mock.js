@@ -27,7 +27,20 @@ const saleById = [
   },
 ];
 
+const newSale = [{
+  sId: 4,
+  pId: 1,
+  q: 1,
+}];
+
+const newSaleResponse = [{
+  productId: 1,
+  quantity: 1,
+}];
+
 module.exports = {
   listAllSales,
   saleById,
+  newSale,
+  newSaleResponse,
 };

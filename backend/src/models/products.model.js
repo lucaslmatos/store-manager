@@ -7,7 +7,8 @@ const getAllProducts = async () => {
 
 const getProductById = async (id) => {
   const [[data]] = await connection.execute('SELECT * FROM products where id = ?', [id]);
-  return data;
+  if (data !== undefined) return data;
+  return 'erro';
 };
 
 const addNewProduct = async (name) => {

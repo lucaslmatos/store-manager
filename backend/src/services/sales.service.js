@@ -12,7 +12,7 @@ const getSaleById = async (id) => {
   return 'error';
 };
 
-const addNewSale = async (sale) => {
+const checkSale = async (sale) => {
   const allSales = await getAllSales();
   const lastId = (allSales[allSales.length - 1].saleId) + 1;
   const data = { id: lastId, itemsSold: [] };
@@ -33,8 +33,18 @@ const addNewSale = async (sale) => {
   return data;
 };
 
+const addNewSale = async (sale) => {
+  const validateSale = await salesMiddlewares.validateSaleContent(sale);
+  if (validateSale.message === 'ok') {
+    const data = await checkSale(sale);
+    return { type: 201, message: data };
+  }
+  return validateSale;
+};
+
 module.exports = {
   getAllSales,
   getSaleById,
   addNewSale,
+  checkSale,
 };
