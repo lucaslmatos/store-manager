@@ -2,6 +2,7 @@ const connection = require('./connection');
 
 const getAllProducts = async () => {
   const [data] = await connection.execute('SELECT * FROM products order by id ');
+  console.log(data);
   return data;
 };
 
@@ -27,10 +28,17 @@ const deleteProduct = async (id) => {
   return { type: 204 };
 };
 
+const searchProduct = async (searchParam) => {
+  const data = await getAllProducts();
+  const resultSearch = data.filter((product) => product.name.includes(searchParam));
+  return { type: 200, message: resultSearch };
+};
+
 module.exports = {
   getAllProducts,
   getProductById,
   addNewProduct,
   editProduct,
   deleteProduct,
+  searchProduct,
 };
