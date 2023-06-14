@@ -51,10 +51,29 @@ const deleteSale = async (id) => {
    return { type: 404, message: 'Sale not found' }; 
 };
 
+const editQtdSale = async (SId, PId, qtd) => {
+  if (qtd <= 0) {
+    return { type: 422, message: '"quantity" must be greater than or equal to 1' };
+  }
+  if (!qtd) {
+    return { type: 400, message: '"quantity" is required' };
+  }
+  const checkSaleId = await salesModel.getSaleById(SId);
+  if (checkSaleId.length !== 0) {
+    if (!checkSaleId.some((sale) => sale.productId === +PId)) {
+      return { type: 404, message: 'Product not found in sale' };
+    }
+  const data = await salesModel.editQtdSale(SId, PId, qtd);
+  return data;
+  }
+  return { type: 404, message: 'Sale not found' }; 
+};
+
 module.exports = {
   getAllSales,
   getSaleById,
   addNewSale,
   checkSale,
   deleteSale,
+  editQtdSale,
 };

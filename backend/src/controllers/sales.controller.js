@@ -26,9 +26,18 @@ const deleteSale = async (req, res) => {
   return res.status(type).json({ message });
 };
 
+const editQtdSale = async (req, res) => {
+  const { saleId, productId } = req.params;
+  const qtd = req.body.quantity;
+  const { type, message } = await salesServices.editQtdSale(saleId, productId, qtd);
+  if (type === 200) { return res.status(type).json(message); }
+  return res.status(type).json({ message });
+};
+
 module.exports = {
   getAllSales,
   getSaleById,
   addNewSale,
   deleteSale,
+  editQtdSale,
 };

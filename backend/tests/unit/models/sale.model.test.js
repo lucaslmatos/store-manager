@@ -30,6 +30,27 @@ describe('Testes da camada model do Sales', function () {
     const result = await salesModel.deleteSale(1);
     expect(result).to.be.deep.equal({ type: 204 });
   });
+  it('Teste da função editQtdSale, alterar venda com sucesso', async function () {
+    sinon.stub(connection, 'execute')
+    .onFirstCall().resolves()
+    .onSecondCall()
+    .resolves()
+    .onThirdCall()
+    .resolves([[{
+      date: '2023-06-14T19:21:21.000Z',
+      productId: 1,
+      quantity: 10,
+      saleId: 1,
+    }]]);
+    const result = await salesModel.editQtdSale(1, 1, 10);
+    expect(result).to.be.deep.equal({ type: 200,
+      message: {
+      date: '2023-06-14T19:21:21.000Z',
+      productId: 1,
+      quantity: 10,
+      saleId: 1,
+    } });
+  });
   afterEach(function () {
     sinon.restore();
   });

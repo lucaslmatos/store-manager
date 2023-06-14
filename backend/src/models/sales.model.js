@@ -31,9 +31,29 @@ const deleteSale = async (id) => {
   return { type: 204 };
 };
 
+const editQtdSale = async (SId, PId, qtd) => {
+  await connection.execute(
+'UPDATE sales_products SET quantity = ? WHERE sale_id = ? and product_id = ?', 
+  [qtd, SId, PId],
+);
+  await connection.execute(
+'UPDATE sales SET date = (NOW()) WHERE id = ?',
+   [SId],
+);
+  const [[date]] = await connection.execute('SELECT date FROM sales WHERE id = ?', [SId]);
+  return { type: 200,
+    message: {
+    date: date.date,
+    productId: +PId,
+    quantity: +qtd,
+    saleId: +SId,
+  } };
+};
+
 module.exports = {
   getAllSales,
   getSaleById,
   addNewSale,
   deleteSale,
+  editQtdSale,
 };

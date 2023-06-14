@@ -80,6 +80,55 @@ describe('Testes da camada service do Sales', function () {
     const result = await salesServices.deleteSale(1);
     expect(result).to.be.deep.equal({ type: 404, message: 'Sale not found' });
   });
+  it('Teste da função editQtdSale, alteração com sucesso', async function () {
+    sinon.stub(salesModel, 'getSaleById').resolves([
+      {
+        date: '2023-05-30T23:58:40.000Z',
+        productId: 1,
+        quantity: 15,
+      },
+    ]);
+    sinon.stub(salesModel, 'editQtdSale').resolves({ type: 200,
+      message: {
+      date: '2023-06-14T19:21:21.000Z',
+      productId: 1,
+      quantity: 10,
+      saleId: 1,
+    } });
+    const result = await salesServices.editQtdSale(1, 1, 10);
+    expect(result).to.be.deep.equal({ type: 200,
+      message: {
+      date: '2023-06-14T19:21:21.000Z',
+      productId: 1,
+      quantity: 10,
+      saleId: 1,
+    } });
+  });
+  it('Teste da função editQtdSale, qtd < 0', async function () {
+    const result = await salesServices.editQtdSale(1, 1, -1);
+    expect(result).to.be.deep.equal({ type: 422, 
+      message: '"quantity" must be greater than or equal to 1' });
+  });
+  it('Teste da função editQtdSale, qtd inexistente', async function () {
+    const result = await salesServices.editQtdSale(1, 1);
+    expect(result).to.be.deep.equal({ type: 400, message: '"quantity" is required' });
+  });
+  it('Teste da função editQtdSale, id de venda inexistente', async function () {
+    sinon.stub(salesModel, 'getSaleById').resolves([]);
+    const result = await salesServices.editQtdSale(12313, 1, 10);
+    expect(result).to.be.deep.equal({ type: 404, message: 'Sale not found' });
+  });
+  it('Teste da função editQtdSale, id de produto inexistente', async function () {
+    sinon.stub(salesModel, 'getSaleById').resolves([
+      {
+        date: '2023-05-30T23:58:40.000Z',
+        productId: 1,
+        quantity: 15,
+      },
+    ]);
+    const result = await salesServices.editQtdSale(1, 213123, 10);
+    expect(result).to.be.deep.equal({ type: 404, message: 'Product not found in sale' });
+  });
   afterEach(function () {
     sinon.restore();
   });
