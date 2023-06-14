@@ -64,6 +64,31 @@ describe('Testes da camada controller do Products', function () {
     expect(res.json).to.be
     .calledWithExactly({ message: '"name" length must be at least 5 characters long' });
   });
+  it('Teste da função editProduct, editar o produto com sucesso', async function () {
+    const req = { body: { name: newProduct.name }, params: { id: 1 } };
+    sinon.stub(productsServices, 'editProduct')
+    .resolves({ type: 200, message: { id: 1, name: newProduct.name } });
+    await productsController.editProduct(req, res);
+    expect(res.status).to.be.calledWith(200);
+    expect(res.json).to.be.calledWithExactly({ id: 1, name: newProduct.name });
+  });
+  it('Teste da função editProduct, editar o produto(id inexistente)', async function () {
+    const req = { body: { name: newProduct.name }, params: { id: 123432342 } };
+    sinon.stub(productsServices, 'editProduct')
+    .resolves({ type: 404, message: 'Product not found' });
+    await productsController.editProduct(req, res);
+    expect(res.status).to.be.calledWith(404);
+    expect(res.json).to.be.calledWithExactly({ message: 'Product not found' });
+  });
+  it('Teste da função editProduct, editar o produto(nome incorreto)', async function () {
+    const req = { body: { name: 'pr' }, params: { id: 1 } };
+    sinon.stub(productsServices, 'editProduct')
+    .resolves({ type: 422, message: '"name" length must be at least 5 characters long' });
+    await productsController.editProduct(req, res);
+    expect(res.status).to.be.calledWith(422);
+    expect(res.json).to.be.calledWithExactly({ 
+      message: '"name" length must be at least 5 characters long' });
+  });
   it('Teste da função deleteSale, deletar venda com sucesso', async function () {
     const req = { params: { id: 1 } };
     sinon.stub(productsServices, 'deleteProduct')

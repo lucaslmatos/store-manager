@@ -5,7 +5,7 @@ const { expect } = chai;
 const salesModel = require('../../../src/models/sales.model');
 const salesServices = require('../../../src/services/sales.service');
 const salesMiddlewares = require('../../../src/middlewares/sales.middlewares');
-const { listAllSales, saleById, newSale, newSaleResponse,
+const { listAllSales, saleById,
   newSaleResponseError1, newSaleResponseError2, newSaleResponseError3,
   newSaleResponseError4 } = require('./mocks/sale.mock');
 
