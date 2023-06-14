@@ -47,6 +47,23 @@ describe('Testes da camada service do Products', function () {
     sinon.stub(productsModel, 'getProductById').resolves('erro');
     expect(result).to.be.deep.equal({ type: 404, message: 'Product not found' });
   });
+  it('Teste da função deleteProduct, id existente', async function () {
+    sinon.stub(productsModel, 'getProductById').resolves([
+      {
+        date: '2023-05-30T23:58:40.000Z',
+        productId: 3,
+        quantity: 15,
+      },
+    ]);
+    sinon.stub(productsModel, 'deleteProduct').resolves({ type: 204 });
+    const result = await productsServices.deleteProduct(1);
+    expect(result).to.be.deep.equal({ type: 204 });
+  });
+  it('Teste da função deleteProduct, id inexistente', async function () {
+    sinon.stub(productsModel, 'getProductById').resolves('erro');
+    const result = await productsServices.deleteProduct(1123123);
+    expect(result).to.be.deep.equal({ type: 404, message: 'Product not found' });
+  });
   afterEach(function () {
     sinon.restore();
   });

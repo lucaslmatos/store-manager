@@ -31,4 +31,5 @@ const validateSaleContent = async (sale) => {
 module.exports = {
   validateId,
   validateSaleContent,
+  checkSaleContent,
 };

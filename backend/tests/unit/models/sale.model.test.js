@@ -25,6 +25,11 @@ describe('Testes da camada model do Sales', function () {
     const result = await salesModel.addNewSale(newSale);
     expect(result).to.be.deep.equal(newSaleResponse);
   });
+  it('Teste da função deleteSale, deletar venda com sucesso', async function () {
+    sinon.stub(connection, 'execute').resolves();
+    const result = await salesModel.deleteSale(1);
+    expect(result).to.be.deep.equal({ type: 204 });
+  });
   afterEach(function () {
     sinon.restore();
   });

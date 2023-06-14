@@ -54,6 +54,22 @@ describe('Testes da camada controller do Sales', function () {
     expect(res.status).to.be.calledWith(400);
     expect(res.json).to.be.calledWithExactly({ message: '"productId" is required' });
   });
+  it('Teste da função deleteSale, deletar venda com sucesso', async function () {
+    const req = { params: { id: 1 } };
+    sinon.stub(salesServices, 'deleteSale')
+    .resolves({ type: 204 });
+    await salesController.deleteSale(req, res);
+    expect(res.status).to.be.calledWith(204);
+    expect(res.json).to.be.calledWithExactly();
+  });
+  it('Teste da função deleteSale, deletar venda sem sucesso', async function () {
+    const req = { params: { id: 4234234 } };
+    sinon.stub(salesServices, 'deleteSale')
+    .resolves({ type: 404, message: 'Sale not found' });
+    await salesController.deleteSale(req, res);
+    expect(res.status).to.be.calledWith(404);
+    expect(res.json).to.be.calledWithExactly({ message: 'Sale not found' });
+  });
   afterEach(function () {
     sinon.restore();
   });

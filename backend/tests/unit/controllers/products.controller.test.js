@@ -64,6 +64,22 @@ describe('Testes da camada controller do Products', function () {
     expect(res.json).to.be
     .calledWithExactly({ message: '"name" length must be at least 5 characters long' });
   });
+  it('Teste da função deleteSale, deletar venda com sucesso', async function () {
+    const req = { params: { id: 1 } };
+    sinon.stub(productsServices, 'deleteProduct')
+    .resolves({ type: 204 });
+    await productsController.deleteProduct(req, res);
+    expect(res.status).to.be.calledWith(204);
+    expect(res.json).to.be.calledWithExactly();
+  });
+  it('Teste da função deleteSale, deletar venda sem sucesso', async function () {
+    const req = { params: { id: 14234234 } };
+    sinon.stub(productsServices, 'deleteProduct')
+    .resolves({ type: 404, message: 'Sale not found' });
+    await productsController.deleteProduct(req, res);
+    expect(res.status).to.be.calledWith(404);
+    expect(res.json).to.be.calledWithExactly({ message: 'Sale not found' });
+  });
   afterEach(function () {
     sinon.restore();
   });
