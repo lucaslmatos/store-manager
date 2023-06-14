@@ -70,6 +70,35 @@ describe('Testes da camada controller do Sales', function () {
     expect(res.status).to.be.calledWith(404);
     expect(res.json).to.be.calledWithExactly({ message: 'Sale not found' });
   });
+  it('Teste da função editQtdSale, editar produto da venda', async function () {
+    const req = { body: { quantity: 10 }, params: { saleId: 1, productId: 1 } };
+    sinon.stub(salesServices, 'editQtdSale')
+    .resolves({ type: 200,
+      message: {
+      date: '2023-06-14T19:21:21.000Z',
+      productId: 1,
+      quantity: 10,
+      saleId: 1,
+    } });
+    await salesController.editQtdSale(req, res);
+    expect(res.status).to.be.calledWith(200);
+    expect(res.json).to.be.calledWithExactly({
+      date: '2023-06-14T19:21:21.000Z',
+      productId: 1,
+      quantity: 10,
+      saleId: 1,
+    });
+  });
+  it('Teste da função editQtdSale, editar produto da venda erro', async function () {
+    const req = { body: { quantity: -1 }, params: { saleId: 1, productId: 1 } };
+    sinon.stub(salesServices, 'editQtdSale')
+    .resolves({ type: 422, 
+      message: '"quantity" must be greater than or equal to 1' });
+    await salesController.editQtdSale(req, res);
+    expect(res.status).to.be.calledWith(422);
+    expect(res.json).to.be.calledWithExactly({ message: 
+      '"quantity" must be greater than or equal to 1' });
+  });
   afterEach(function () {
     sinon.restore();
   });
